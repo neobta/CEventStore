@@ -1,0 +1,5 @@
+all:
+	g++ eventStoreApp.cc  eventStore.cc eventRepository.cc binSer.cc bon.cc  -o output/eventStoreApp -std=c++11 
+	g++ serializeTest.cc  eventStore.cc eventRepository.cc binSer.cc bon.cc  -o output/serializeTest -std=c++11 
+	g++ bonTest.cc  eventStore.cc eventRepository.cc binSer.cc bon.cc  -o output/bonTest -std=c++11 
+	g++ eventRepositoryTest.cc  eventStore.cc eventRepository.cc binSer.cc bon.cc  -o output/bonTest -std=c++11 
