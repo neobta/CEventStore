@@ -1,7 +1,7 @@
 all: eventStore
 
 clean:
-	-rm eventStore.o eventRepository.o binSer.o bon.o output/eventStoreApp output/serializeTest output/bonTest
+	-rm output/eventRepositoryTest output/serializeTest output/eventStoreApp eventStore.o eventRepository.o binSer.o bon.o output/eventStoreApp output/serializeTest output/bonTest
 
 eventStore: binSer.o bon.o eventStore.o
 	mkdir -p output

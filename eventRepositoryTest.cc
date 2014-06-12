@@ -32,6 +32,7 @@ THE SOFTWARE.
 #include "binSer.hh"
 #include <vector>
 #include <bitset>
+#include <ctime>
 
 using std::string;
 using std::endl;
@@ -73,17 +74,17 @@ void printEvents(const vector<eventStore> evs)
 
 int main(){
 
-  string id("9921a5f2-3b49-4e7c-8edc-b4f1187aa016");
+  string id("9921a5f2-3b49-4e7c-8edc-b4f1187aa017");
   //  eventStore ev1(id, "evento \n tipo", "tipo stream", "{evt: som event type with some weird data includede \r\n}");
   //  eventRepository::saveEvent(ev1);
  
   //  cout << get_selfpath() << endl; 
   // static int saveEvent (eventStore const &event);
   
-
-  /*  for (uint64_t index =0; index <= 1000000; ++index)
+  /*      std::time_t start = std::time(NULL);
+    for (uint64_t index =0; index <= 1000000; ++index)
     {
-      if (index %100 == 0)
+      if (index %100000 == 0)
 	{
 	  cout << "total events stored " << index << endl;
 	}
@@ -91,14 +92,16 @@ int main(){
       eventRepository::saveEvent(ev2);
     }
 
+    cout << difftime(start, std::time(NULL))  << endl;
   cout << "saved events " <<endl;
-  
   */
+  
 
 
-  vector<eventStore> evs = eventRepository::getEvents(id,100000,100010);
+   vector<eventStore> evs = eventRepository::getEvents(id,999991,1000000);
   cout <<endl<< "Event REhydrated " << (evs.size()) << endl;
     printEvents(evs);
+  
   //  cout<< "Read" << endl;
   // cout << ev2.id << endl;
 

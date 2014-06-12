@@ -344,7 +344,7 @@ std::vector<char> ser::bon::getBinaryMessage()
       //Add Value
       addItemsTo(item.second, retVal);
     }
-
+  //Add End REcord Mark
   retVal.push_back(0);
 
   return retVal;
