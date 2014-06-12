@@ -60,7 +60,7 @@ std::string get_selfpath() {
 
 
 
-int evt::eventRepository::saveEvent (evt::eventStore const &event){
+int evt::eventRepository::saveEvent (evt::eventStore  &event){
   std::string appPath =get_selfpath();
   int pos =  appPath.find_last_of("/");
   int res =  appPath.size() -  appPath.find_last_of("/");
@@ -75,6 +75,23 @@ int evt::eventRepository::saveEvent (evt::eventStore const &event){
 
   if (os){
 
+
+    //New record position
+    ifstream input(file, ofstream::binary);
+    input.seekg(0,input.end);
+    uint64_t ixpos = input.tellg();
+    input.close();
+
+
+
+    //Get Current max index
+    ifstream inputix(file+".ix", ofstream::binary);
+    inputix.seekg(0,inputix.end);
+    uint64_t ixpost = inputix.tellg();
+    inputix.close();
+    event.newVersion = (ixpost/8)+1;
+
+
     bon evBon;
     evBon.add("id",event.id);
     evBon.add("eventType", event.eventType);
@@ -86,12 +103,7 @@ int evt::eventRepository::saveEvent (evt::eventStore const &event){
     vector<char>::size_type size =    message.size();
 
 
-    ifstream input(file, ofstream::binary);
-    input.seekg(0,input.end);
-    uint64_t ixpos = input.tellg();
-
-    input.close();
-
+   
     vector<char> ixbin = binSer::serialize(ixpos);
 
     ixstream.write(reinterpret_cast<char*> (&ixbin[0]),8);
@@ -141,20 +153,13 @@ std::vector<evt::eventStore>  evt::eventRepository::getEvents (std::string const
     
     uint64_t end=binSer::deserializeUInt64(std::vector<char>(buffend, buffend+8));
     
-    cout << "Start :" << start << " End :" << end << endl;
-
-    
     input.seekg (0, input.end);
     uint64_t length = input.tellg();
     input.seekg (start, input.beg);     
     
-
-
     char* buffer = new char[end-start];
 
     input.read(buffer, end-start);
-    
-
     
     input.close();
 
@@ -170,14 +175,14 @@ std::vector<evt::eventStore>  evt::eventRepository::getEvents (std::string const
 
 	bon mbon(data, index);
 
-	  
+  
 	//Version without index file so need to be readed
 	eventStore ev;
 	ev.id = mbon.getString("id") ;
 	ev.eventType =mbon.getString("eventType");;
 	ev.streamType = mbon.getString("streamType");
-	ev.expectedVersion = mbon.getInt32("expectedVersion");
-	ev.newVersion = mbon.getInt32("newVersion");
+	ev.expectedVersion = mbon.getUInt64("expectedVersion");
+	ev.newVersion = mbon.getUInt64("newVersion");
 	ev.eventData = mbon.getString("eventData");       
 	events.push_back(ev);
 	  

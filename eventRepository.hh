@@ -36,7 +36,7 @@ namespace evt
 class eventRepository {
 public:
   eventRepository (){}
-  static int saveEvent (eventStore const &event);
+  static int saveEvent (eventStore &event);
   static std::vector<eventStore>  getEvents (std::string const &id, int from, int to);
 };
 

@@ -82,17 +82,11 @@ ser::bon::bon (const std::vector<char> &message, uint64_t &lastMessagePosition )
   	}
 
       string key = binSer::deserializeString(values[index].second);
+
       ++index;
      
-      //Save the binary value like that
-      std::vector<char> full(binSer::serialize( values[index].first));
-      addItemsTo({values[index].second.begin(), values[index].second.end()},full);
-      keys[key] = full;
-
-      
-      //this one is the version doing casting is inefficient
-      //get value
-      /*  switch (values[index].first)
+    
+        switch (values[index].first)
       {
       case 1 : {
 	add(key,binSer::deserializeInt16({values[index].second.begin(),values[index].second.end() }));
@@ -130,7 +124,7 @@ ser::bon::bon (const std::vector<char> &message, uint64_t &lastMessagePosition )
       default:{
 	throw std::domain_error(("Message contains Type that is unknow at "+std::to_string(values[index].first)+" at index " + std::to_string(index)));
       }
-      }*/
+      }
       ++index;
    }
 }

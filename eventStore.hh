@@ -45,8 +45,8 @@ public:
   std::string id;
   std::string eventType;
   std::string streamType;
-  int expectedVersion;
-  int newVersion;
+  uint64_t expectedVersion;
+  uint64_t newVersion;
   std::string eventData;
 
 };
